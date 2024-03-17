@@ -7,9 +7,9 @@ import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
+import dynamic from "next/dynamic";
 import { z } from "zod";
 type IssueForm = z.infer<typeof createIssueSchema>;
 const NewIssuePage = () => {
@@ -17,13 +17,20 @@ const NewIssuePage = () => {
     register,
     control,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
+  const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+    ssr: false,
+  });
   const [error, setError] = useState("");
   const [isSubmmiting, setSubmmiting] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    setFocus("title");
+  }, [setFocus]);
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmmiting(true);
@@ -43,7 +50,11 @@ const NewIssuePage = () => {
       )}
       <form className=" space-y-4" onSubmit={onSubmit}>
         <TextField.Root>
-          <TextField.Input placeholder="Title" {...register("title")} />
+          <TextField.Input
+            autoFocus={true}
+            placeholder="Title"
+            {...register("title")}
+          />
         </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
