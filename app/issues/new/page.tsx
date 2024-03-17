@@ -1,15 +1,16 @@
 "use client";
-import { Text, Button, Callout, TextField } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
-import { useEffect, useRef, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import createIssueSchema from "@/app/validationSchemas";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import createIssueSchema from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Callout, TextField } from "@radix-ui/themes";
+import axios from "axios";
+import "easymde/dist/easymde.min.css";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import SimpleMDE from "react-simplemde-editor";
+import { z } from "zod";
 type IssueForm = z.infer<typeof createIssueSchema>;
 const NewIssuePage = () => {
   const {
@@ -47,11 +48,8 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
-        {errors.title && (
-          <Text as="p" color="red">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
+
         <Controller
           name="description"
           control={control}
@@ -59,11 +57,7 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder="Description..." {...field} />
           )}
         />
-        {errors.description && (
-          <Text as="p" color="red">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmmiting}>
           Submit New Issue {isSubmmiting && <Spinner />}
         </Button>
