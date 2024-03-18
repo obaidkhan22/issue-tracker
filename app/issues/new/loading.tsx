@@ -1,7 +1,7 @@
-import React from "react";
+import IssueFormSkeleton from "../_components/IssueFormSkeleton";
 
 const LoadingNewIssuePage = () => {
-  return <div>Loading...</div>;
+  return <IssueFormSkeleton />;
 };
 
 export default LoadingNewIssuePage;
