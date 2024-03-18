@@ -15,7 +15,7 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
         <IssueDetail issue={issue} />
       </Box>
       <Box>
-        <IssueEditButton issueId={issue.id}/>
+        <IssueEditButton issueId={issue.id} />
       </Box>
     </Grid>
   );
