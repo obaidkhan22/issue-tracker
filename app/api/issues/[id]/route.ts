@@ -34,7 +34,7 @@ export async function DELETE(
   });
   if (!issue)
     return NextResponse.json({ error: "invalid issue" }, { status: 404 });
-  prisma.issue.delete({
+  await prisma.issue.delete({
     where: { id: parseInt(params.id) },
   });
   return NextResponse.json({});
