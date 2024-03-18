@@ -11,9 +11,12 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import SimpleMdeReact from "react-simplemde-editor";
 import { z } from "zod";
-
+import { Issue } from "@prisma/client";
+interface Props {
+  issue?: Issue;
+}
 type IssueFormData = z.infer<typeof createIssueSchema>;
-const IssueForm = () => {
+const IssueForm = ({ issue }: Props) => {
   const {
     register,
     control,
@@ -33,6 +36,7 @@ const IssueForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmmiting(true);
+      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
       await axios.post("/api/issues", data);
       router.push("/issues");
       router.refresh();
@@ -51,6 +55,7 @@ const IssueForm = () => {
       <form className=" space-y-4" onSubmit={onSubmit}>
         <TextField.Root>
           <TextField.Input
+            defaultValue={issue?.title}
             autoFocus={true}
             placeholder="Title"
             {...register("title")}
@@ -61,13 +66,15 @@ const IssueForm = () => {
         <Controller
           name="description"
           control={control}
+          defaultValue={issue?.description}
           render={({ field }) => (
             <SimpleMdeReact placeholder="Description..." {...field} />
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmmiting}>
-          Submit New Issue {isSubmmiting && <Spinner />}
+          {issue ? "Update Issue" : "Submit New Issue"}
+          {isSubmmiting && <Spinner />}
         </Button>
       </form>
     </div>
