@@ -1,9 +1,8 @@
 import prisma from "@/prisma/client";
-import { Box, Button, Grid, Flex } from "@radix-ui/themes";
+import { Box, Grid, Flex } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import IssueDetail from "../_components/IssueDetail";
 import IssueEditButton from "../_components/IssueEditButton";
-import delay from "delay";
 import IssueDeleteButton from "../_components/IssueDeleteButton";
 
 const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
@@ -11,7 +10,6 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
     where: { id: parseInt(params.id) },
   });
   if (!issue) notFound();
-  await delay(2000);
   return (
     <Grid columns={{ initial: "1", sm: "5" }} gap="5">
       <Box className="md:col-span-4">
