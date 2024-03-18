@@ -1,9 +1,8 @@
-import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import prisma from "@/prisma/client";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { Box, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
-import React from "react";
-import Markdown from "react-markdown";
+import IssueDetail from "../_components/IssueDetail";
+import IssueEditButton from "../_components/IssueEditButton";
 
 const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   const issue = await prisma.issue.findUnique({
@@ -11,16 +10,14 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   });
   if (!issue) notFound();
   return (
-    <div className="space-y-3">
-      <Heading>{issue.title}</Heading>
-      <Flex gap="3">
-        <IssueStatusBadge status={issue.status} />
-        <Text>{issue.createAt.toDateString()}</Text>
-      </Flex>
-      <Card className="prose">
-        <Markdown>{issue.description}</Markdown>
-      </Card>
-    </div>
+    <Grid columns={{ initial: "1", md: "2" }} gap="3">
+      <Box>
+        <IssueDetail issue={issue} />
+      </Box>
+      <Box>
+        <IssueEditButton issueId={issue.id}/>
+      </Box>
+    </Grid>
   );
 };
 
