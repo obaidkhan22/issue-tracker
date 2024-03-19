@@ -1,15 +1,14 @@
 "use client";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import { Spinner } from "@/app/components";
+import { Spinner, ErrorMessage } from "@/app/components";
 import createIssueSchema from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
-import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import SimpleMdeReact from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
 import { z } from "zod";
 import { Issue } from "@prisma/client";
 interface Props {
