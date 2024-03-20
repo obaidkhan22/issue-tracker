@@ -66,6 +66,7 @@ const AuthStatus = () => {
                 fallback="?"
                 radius="full"
                 className="cursor-pointer"
+                referrerPolicy="no-referrer"
               />
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
