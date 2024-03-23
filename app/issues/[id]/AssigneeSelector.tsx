@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@prisma/client";
+import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -15,7 +15,13 @@ const AssigneeSelector = ({ issueId }: { issueId: number }) => {
     fetchUsers();
   }, []);
   return (
-    <Select.Root>
+    <Select.Root
+      onValueChange={(userId) => {
+        axios.patch("/api/issues/" + issueId, {
+          assignedToUserId: userId,
+        });
+      }}
+    >
       <Select.Trigger placeholder="Assign..." variant="soft" />
       <Select.Content position="popper">
         <Select.Group>
