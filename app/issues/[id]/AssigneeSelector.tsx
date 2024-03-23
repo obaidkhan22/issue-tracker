@@ -4,6 +4,7 @@ import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const AssigneeSelector = ({ issueId }: { issueId: number }) => {
   const [users, setUsers] = useState<User[]>([]);
@@ -15,25 +16,33 @@ const AssigneeSelector = ({ issueId }: { issueId: number }) => {
     fetchUsers();
   }, []);
   return (
-    <Select.Root
-      onValueChange={(userId) => {
-        axios.patch("/api/issues/" + issueId, {
-          assignedToUserId: userId,
-        });
-      }}
-    >
-      <Select.Trigger placeholder="Assign..." variant="soft" />
-      <Select.Content position="popper">
-        <Select.Group>
-          <Select.Label>Suggestions</Select.Label>
-          {users.map((user) => (
-            <Select.Item key={user.id} value={user.id}>
-              {user.name}
-            </Select.Item>
-          ))}
-        </Select.Group>
-      </Select.Content>
-    </Select.Root>
+    <>
+      <Select.Root
+        onValueChange={async (userId) => {
+          await axios
+            .patch("/api/issues/" + issueId, {
+              assignedToUserId: userId,
+            })
+            .catch(() => {
+              toast.error("Changes could not be saved.");
+            });
+        }}
+      >
+        <Select.Trigger placeholder="Assign..." variant="soft" />
+        <Select.Content position="popper">
+          <Select.Group>
+            <Select.Label>Suggestions</Select.Label>
+            {users.map((user) => (
+              <Select.Item key={user.id} value={user.id}>
+                {user.name}
+              </Select.Item>
+            ))}
+          </Select.Group>
+        </Select.Content>
+      </Select.Root>
+
+      <Toaster />
+    </>
   );
 };
 
