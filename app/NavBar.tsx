@@ -57,7 +57,8 @@ const AuthStatus = () => {
   const { status, data: session } = useSession();
   return (
     <>
-      <Box>
+      <Flex align="center" justify="center" gap="2">
+        <Text className="text-zinc-400">{session?.user?.name}</Text>
         {status === "authenticated" && (
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>
@@ -79,11 +80,11 @@ const AuthStatus = () => {
             </DropdownMenu.Content>
           </DropdownMenu.Root>
         )}
+      </Flex>
 
-        {status === "unauthenticated" && (
-          <Link href="/api/auth/signin">Log in</Link>
-        )}
-      </Box>
+      {status === "unauthenticated" && (
+        <Link href="/api/auth/signin">Log in</Link>
+      )}
     </>
   );
 };
