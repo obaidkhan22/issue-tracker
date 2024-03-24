@@ -17,6 +17,7 @@ interface Props {
 }
 const Pagination = ({ currentPage, pageSize, itemCount }: Props) => {
   const pageCount = Math.ceil(itemCount / pageSize);
+  if(pageCount === 1) return null
   const router = useRouter();
   const searchParams = useSearchParams();
   const disabled = currentPage === 1;
@@ -26,8 +27,8 @@ const Pagination = ({ currentPage, pageSize, itemCount }: Props) => {
     router.push("?" + params.toString());
   };
   return (
-    <Flex align="center" gap="3">
-      <Text size='2' className='text-zinc-400'>
+    <Flex align="center" gap="3" className='mt-3'>
+      <Text size="2" className="text-zinc-400">
         Page {currentPage} of {pageCount}
       </Text>
       <Button
