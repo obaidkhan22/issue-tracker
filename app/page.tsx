@@ -1,4 +1,5 @@
+import IssuesSummary from "./IssuesSummary";
 
 export default function Home() {
-  return <h1>Hello World</h1>;
+  return <IssuesSummary open={5} inProgress={10} close={2} />;
 }
