@@ -6,7 +6,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-const AssigneeSelector = ({ issueId }: { issueId: number }) => {
+const AssigneeSelector = ({ issue }: { issue: Issue }) => {
   const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
     const fetchUsers = async () => {
@@ -15,23 +15,26 @@ const AssigneeSelector = ({ issueId }: { issueId: number }) => {
     };
     fetchUsers();
   }, []);
+  const onValueChange = async (userId: string) => {
+    await axios
+      .patch("/api/issues/" + issue.id, {
+        assignedToUserId: userId !== "unasigned" ? userId : null,
+      })
+      .catch(() => {
+        toast.error("Changes could not be saved.");
+      });
+  };
   return (
     <>
       <Select.Root
-        onValueChange={async (userId) => {
-          await axios
-            .patch("/api/issues/" + issueId, {
-              assignedToUserId: userId,
-            })
-            .catch(() => {
-              toast.error("Changes could not be saved.");
-            });
-        }}
+        defaultValue={issue.assignedToUserId || "unasigned"}
+        onValueChange={onValueChange}
       >
         <Select.Trigger placeholder="Assign..." variant="soft" />
         <Select.Content position="popper">
           <Select.Group>
             <Select.Label>Suggestions</Select.Label>
+            <Select.Item value="unasigned">Unasigned</Select.Item>
             {users.map((user) => (
               <Select.Item key={user.id} value={user.id}>
                 {user.name}
