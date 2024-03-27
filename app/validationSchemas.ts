@@ -25,6 +25,7 @@ const patchIssueSchema = z.object({
     .max(225)
     .optional()
     .nullable(),
+  status: z.string().min(1),
 });
 export { patchIssueSchema };
 export default createIssueSchema;
