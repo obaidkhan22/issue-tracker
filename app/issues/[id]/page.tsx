@@ -7,6 +7,7 @@ import IssueDeleteButton from "../_components/IssueDeleteButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import AssigneeSelector from "./AssigneeSelector";
+import IssueStatusSelector from "./IssueStatusSelector";
 
 const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
   const session = await getServerSession(authOptions);
@@ -23,6 +24,7 @@ const IssueDetailPage = async ({ params }: { params: { id: string } }) => {
         <Box>
           <Flex direction="column" gap="3" className="mt-3">
             <AssigneeSelector issue={issue} />
+            <IssueStatusSelector issueStatus={issue.status} />
             <IssueEditButton issueId={issue.id} />
             <IssueDeleteButton issueId={issue.id} />
           </Flex>
