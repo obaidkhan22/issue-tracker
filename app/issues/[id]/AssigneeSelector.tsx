@@ -1,5 +1,4 @@
 "use client";
-
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
@@ -43,7 +42,6 @@ const AssigneeSelector = ({ issue }: { issue: Issue }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
-
       <Toaster />
     </>
   );
