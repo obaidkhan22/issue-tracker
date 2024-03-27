@@ -2,7 +2,6 @@ import prisma from "@/prisma/client";
 import { Flex } from "@radix-ui/themes";
 import { Pagination } from "../../components";
 import IssueAction from "./IssueAction";
-import IssueFilter from "./IssueFilter";
 import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
 import { Status } from "@prisma/client";
 interface Props {

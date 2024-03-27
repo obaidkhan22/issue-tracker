@@ -16,9 +16,8 @@ interface Props {
   itemCount: number;
 }
 const Pagination = ({ currentPage, pageSize, itemCount }: Props) => {
-  const pageCount = Math.ceil(itemCount / pageSize);
-  if(pageCount === 1) return null
   const router = useRouter();
+  const pageCount = Math.ceil(itemCount / pageSize);
   const searchParams = useSearchParams();
   const disabled = currentPage === 1;
   const changePage = (page: number) => {
@@ -26,6 +25,7 @@ const Pagination = ({ currentPage, pageSize, itemCount }: Props) => {
     params.set("page", page.toString());
     router.push("?" + params.toString());
   };
+  if (pageCount === 1) return null;
   return (
     <Flex align="center" gap="3">
       <Text size="2" className="text-zinc-400">
